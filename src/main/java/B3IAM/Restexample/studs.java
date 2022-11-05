@@ -1,5 +1,8 @@
 package B3IAM.Restexample;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement
 public class studs {
 
 	public int id;

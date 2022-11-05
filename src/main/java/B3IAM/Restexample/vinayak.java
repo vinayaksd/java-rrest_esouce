@@ -5,6 +5,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+
+import org.glassfish.connectors.admin.cli.internal.GetSystemRarsAllowingPoolCreation;
 
 import stringReturn.StringMessage;
 
@@ -16,9 +20,7 @@ import java.util.Scanner;
 @Path("vinayak")
 public class vinayak {
 
-	
-	static String message=""; 
-	
+	static String message = "";
 
 	@GET
 	@Produces("text/plain")
@@ -217,45 +219,40 @@ public class vinayak {
 	// method to demonstrate vowels and replace with its uppercase.
 
 	public String amani(@PathParam("str") String s) {
-		String res = s.substring(s.length() - 3, s.length()).toUpperCase();		
+		String res = s.substring(s.length() - 3, s.length()).toUpperCase();
 		int count = 0;
-		String m="";
+		String m = "";
 		int index_a = -1, index_e = -1, index_i = -1, index_o = -1, index_u = -1; // default values.
 
 		for (int i = 0; i < s.length(); i++) {
-			
+
 			if (s.charAt(i) == 'a' || s.charAt(i) == 'e' || s.charAt(i) == 'i' || s.charAt(i) == 'o'
 					|| s.charAt(i) == 'u') {
-				
-				m=m+(s.charAt(i)+"").toUpperCase();
-	 
+
+				m = m + (s.charAt(i) + "").toUpperCase();
+
 				if (s.charAt(i) == 'a') {
 					count++;
 					index_a = s.indexOf(s.charAt(i));
-					
-				}
-				else if (s.charAt(i) == 'e') {
+
+				} else if (s.charAt(i) == 'e') {
 					count++;
 					index_e = s.indexOf(s.charAt(i));
-				}
-				else if (s.charAt(i) == 'i') {
+				} else if (s.charAt(i) == 'i') {
 					count++;
 					index_i = s.indexOf(s.charAt(i));
-				}
-				else if (s.charAt(i) == 'o') {
+				} else if (s.charAt(i) == 'o') {
 					count++;
 					index_o = s.indexOf(s.charAt(i));
-				}
-				else if (s.charAt(i) == 'u') {
+				} else if (s.charAt(i) == 'u') {
 					count++;
 					index_u = s.indexOf(s.charAt(i));
 				}
-				
+
+			} else {
+				m = m + (s.charAt(i));
+
 			}
-			else {
-				m=m+(s.charAt(i));
-			
-		}
 		}
 		return m + "<br>" + "---------------------------------" + "<br>" + "count of vowels: " + "<b>" + count
 				+ "</b><br>" + "index_a: " + "<b>" + index_a + "</b>" + "<br>" + "index_e:" + "<b>" + index_e
@@ -263,33 +260,32 @@ public class vinayak {
 				+ "index_u: " + "<b>" + index_u + "</b><br>";
 	}
 
-	// 3 same method names for overloading (1.int, int) (2. float,float) (3.int, float)
+	// 3 same method names for overloading (1.int, int) (2. float,float) (3.int,
+	// float)
 
-	
 	@GET
 	@Produces(MediaType.TEXT_HTML)
 	@Path("akash/addint/{y}/{x}")
 	public String amani(@PathParam("y") int num1, @PathParam("x") int num2) {
-		return "sum:"+(num1+num2);
+		return "sum:" + (num1 + num2);
 
 	}
 
-	
 	@GET
 	@Produces(MediaType.TEXT_HTML)
 	@Path("floats/add/{float1}/{float2}")
 	public String sum(@PathParam("float1") float x, @PathParam("float2") float y) {
-		
-		return "sum:  "+(x + y);
+
+		return "sum:  " + (x + y);
 
 	}
 
-	@GET							// int and float overloading method
+	@GET // int and float overloading method
 	@Produces(MediaType.TEXT_HTML)
 	@Path("int/add/{int1}/{float1}")
 	public String sum(@PathParam("int1") int val1, @PathParam("float1") float val2) {
 		float sum = val1 + val2;
-		return "sum of int & float: "+sum;
+		return "sum of int & float: " + sum;
 
 	}
 
@@ -297,8 +293,8 @@ public class vinayak {
 	@Produces(MediaType.TEXT_HTML)
 	@Path("arraylast/{input}") // give the array size and input seperated by commas.
 
-	public String readlastcharOfArray(@PathParam("input") String input) {		
-		String splitarr[] = input.split(",");		
+	public String readlastcharOfArray(@PathParam("input") String input) {
+		String splitarr[] = input.split(",");
 		String s = "";
 		s = "<table border=2><tr><th>String</th><th>Last character</th></tr>";
 
@@ -308,41 +304,113 @@ public class vinayak {
 					+ splitarr[i].charAt(splitarr[i].length() - 1) + "</td></tr>" + "<br>";
 
 		}
+
 		s += "</table>";
 
 		return s;
 	}
 
+	// to check private variable can e accessed by public methods
 
-	
-		  
-		// to check private variable can e accessed by public methods
-	
-		@GET
-		@Produces(MediaType.TEXT_HTML)
-		@Path("constructor/{pin}")
-		public String constructorcall(@PathParam("pin") int value) {			
-			
-			StringMessage sm= new StringMessage(value);			
-			
-			return sm.msg();
-			
-		}
-		
-		@GET
-		@Produces(MediaType.TEXT_HTML)
-		@Path("integer/{float}")
-		public String intreturn(@PathParam("float") float value) {
-			int i=(int)value;              //casting done here
-			return i+"";			
-	
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	@Path("constructor/{pin}")
+	public String constructorcall(@PathParam("pin") int value) {
+
+		StringMessage sm = new StringMessage(value);
+
+		return sm.msg();
+
 	}
-		@GET
-		@Produces(MediaType.TEXT_HTML)
-		@Path("char/{c}")
-		public String intreturn(@PathParam("c") String c) {
-			int i=(int)c.charAt(0);              //casting done here to print ascii value of character
-			return i+" is ascii value of: "+c+"space";			
-	
+
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	@Path("integer/{float}")
+	public String intreturn(@PathParam("float") float value) {
+		int i = (int) value; // casting done here
+		return i + "";
+
+	}
+
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	@Path("char/{c}")
+	public String intreturn(@PathParam("c") String c) {
+		int i = (int) c.charAt(0); // casting done here to print ascii value of character
+		return i + " is ascii value of: " + c + "space";
+
+	}
+
+	// counting words and making 1st letter to capital
+	@SuppressWarnings("null")
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	@Path("enterString/{sentence}")
+	public String displaywords(@PathParam("sentence") String sentence) {
+		String m = "";
+		String s = "";
+		String a = "";
+		String combinedLetters = "";
+		s = "<table border=1>";
+		String arr[] = sentence.split(" ");
+		int words = arr.length;
+		String add[] = {};
+		int inc = 0;
+		for (int i = 0; i < arr.length; i++) {
+
+			for (int j = 0; j < arr[i].length(); j++) {
+				if (arr[i].charAt(j) == 'a' || arr[i].charAt(j) == 'e' || arr[i].charAt(j) == 'i'
+						|| arr[i].charAt(j) == 'o' || arr[i].charAt(j) == 'u') {
+
+					add[inc++] += arr[i].charAt(j);
+				}
+			}
+		}
+		for (String s1 : add) {
+			a += s1;
+		}
+
+		for (int i = 0; i < arr.length; i++) { // first character of each string to upperchar
+
+			m += "<b>" + (arr[i].charAt(0) + "").toUpperCase() + "</b>";
+			m += arr[i].substring(1, arr[i].length()) + " ";
+		}
+		// combining last letters of word and vowels into array
+		for (int i = 0; i < arr.length; i++) {
+			combinedLetters += arr[i].substring((arr[i].length() - 1), arr[i].length());
+
+		}
+
+		s += "<tr><td>count of words = " + words
+				+ "</td><td>making first letter of words to caps</td></tr><tr><td>String entered is  :" + sentence
+				+ "</td><td> After changing is :" + m + "</td></tr>" + "<br> after combining last letter of words: "
+				+ "<b>" + combinedLetters + "</b>" + "<br>array filled with vowel: " + a;
+		s += "</table>";
+		return s;
+
+	}
+
+	@GET
+	@Produces(MediaType.APPLICATION_XML) // Sending data object to webserver by using xmlrootelemnt on subclass +
+											// @XmlAccessorType(XmlAccessType.FIELD)
+	@Path("inhert")
+	public currstuds inhert() {
+
+		currstuds curr = new currstuds();
+		curr.id = 101;
+		curr.age = 26;
+		curr.stipend = 10000;
+		curr.trainer = "bheem sir";
+
+		return curr;
+
+	}
+
+	@GET
+	@Produces(MediaType.TEXT_HTML)
+	@Path("overriding")
+	public String overridinggetsalary() {
+		child ch = new child();
+		return ch.getallsalary() ;
 	}
 }
