@@ -354,21 +354,49 @@ public class vinayak {
 		s = "<table border=1>";
 		String arr[] = sentence.split(" ");
 		int words = arr.length;
-		String add[] = {};
+		
 		int inc = 0;
+		
+		
+		int count = 0;
 		for (int i = 0; i < arr.length; i++) {
 
 			for (int j = 0; j < arr[i].length(); j++) {
+
 				if (arr[i].charAt(j) == 'a' || arr[i].charAt(j) == 'e' || arr[i].charAt(j) == 'i'
 						|| arr[i].charAt(j) == 'o' || arr[i].charAt(j) == 'u') {
-
-					add[inc++] += arr[i].charAt(j);
+					count++;
 				}
 			}
+			
 		}
-		for (String s1 : add) {
-			a += s1;
+		
+		String add[] = new String[count];
+		
+		
+		for (int i = 0; i < arr.length; i++) {
+
+			for (int j = 0; j < arr[i].length(); j++) {
+
+				if (arr[i].charAt(j) == 'a' || arr[i].charAt(j) == 'e' || arr[i].charAt(j) == 'i'
+						|| arr[i].charAt(j) == 'o' || arr[i].charAt(j) == 'u') {
+					
+					System.out.println(
+							"inside: array index " + i + " " 
+					+ arr[i].charAt(j) + " j is " + j);
+
+					add[inc] = arr[i].charAt(j)+"";	
+					inc++;
+				} 
+			}
+
 		}
+		
+		for (int m1=0;m1<add.length;m1++) {
+			a+=add[m1]+" ";
+		}
+		
+	
 
 		for (int i = 0; i < arr.length; i++) { // first character of each string to upperchar
 
