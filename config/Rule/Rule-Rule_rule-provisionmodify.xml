@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Rule PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<Rule language="beanshell" name="Rule_Rule-ProvisionModify">
+          
+    
+    <Source><![CDATA[
+  import sailpoint.object.Application;
+  import sailpoint.object.Identity;
+import sailpoint.api.Provisioner;
+import sailpoint.api.SailPointContext;
+import sailpoint.object.Application;
+import sailpoint.object.Identity;
+import sailpoint.object.ProvisioningPlan;
+import sailpoint.object.ProvisioningPlan.AccountRequest;
+import sailpoint.tools.GeneralException;
+import  sailpoint.object.ProvisioningPlan.AttributeRequest;
+
+ String identityName = "Anthony.Roberts";
+	   String appName =  "ActiveDirectory"; 
+
+  Identity identityName1 = context.getObject(Identity.class, identityName);
+  
+  
+ 
+ 
+ ProvisioningPlan plan = new ProvisioningPlan();
+		ArrayList accountRequestList=new ArrayList();
+		
+	 
+        
+		plan.setIdentity(identityName1);
+
+		AccountRequest adAccountRequest = new AccountRequest();
+
+	 	Application AppName1 = context.getObject(Application.class, appName);
+
+		adAccountRequest.setApplication(AppName1.getName());
+		adAccountRequest.setOperation(AccountRequest.Operation.Disable);
+		
+		AttributeRequest  fnAttRequest=new AttributeRequest("givenName",identityName1.getFirstname());
+		//	AttributeRequest  lAttRequest=new AttributeRequest("l",identityName1.getFirstname());
+		//AttributeRequest  mailAttRequest=new AttributeRequest("mail",identityName1.getEmail());
+		AttributeRequest  employeeIDAttRequest=new AttributeRequest("employeeID",identityName1.getStringAttribute("employeeId"));
+		
+		//AttributeRequest  memberOfAttRequest=new AttributeRequest("memberOf",accessName);
+		
+		AttributeRequest  mailAttRequest=new AttributeRequest("mail",identityName1.getEmail());
+	
+	
+		adAccountRequest.add(fnAttRequest);
+	 adAccountRequest.add(mailAttRequest);
+		 adAccountRequest.add(employeeIDAttRequest);	
+		 
+		 // adAccountRequest.add(memberOfAttRequest);
+		 
+		String finalName="CN="+identityName1.getName()+",CN=Users,DC=IDMTECHGURU,DC=COM";
+		
+		System.out.println("Final name --->"+finalName);
+		adAccountRequest.setNativeIdentity(finalName);
+		
+		accountRequestList.add(adAccountRequest);
+		
+		plan.setAccountRequests(accountRequestList);
+		
+		System.out.println("Plan ---->"+plan.toXml());
+		
+	  Provisioner p=new Provisioner(context);
+		
+		p.compile(plan);
+		p.execute(); 
+ 
+ return plan;
+
+	
+    ]]></Source>
+        
+
+</Rule>

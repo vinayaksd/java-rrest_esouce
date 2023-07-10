@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Workflow PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<Workflow explicitTransitions="true" name="Iaas Leaver-workflow" type="IdentityLifecycle">
+          
+    
+    <Variable name="Event"/>
+          
+    
+    <Variable name="plan"/>
+          
+    
+    <Variable initializer="true" name="trace"/>
+          
+    
+    <Variable input="true" name="trigger"/>
+          
+    
+    <Variable name="identityName"/>
+          
+    
+    <Step icon="Default" name="Generic Step" posX="431" posY="18">
+                    
+        
+        <Script>
+                              
+            
+            <Source><![CDATA[import sailpoint.object.Application;
+import sailpoint.object.Identity;
+import sailpoint.api.Provisioner;
+import sailpoint.api.SailPointContext;
+import sailpoint.object.Application;
+import sailpoint.object.Identity;
+import sailpoint.object.ProvisioningPlan;
+import sailpoint.object.ProvisioningPlan.AccountRequest;
+import sailpoint.tools.GeneralException;
+import  sailpoint.object.ProvisioningPlan.AttributeRequest;
+ 
+// ProvisioningPlan for Leave an identity from the organization
+        // ---------------------------Disable--------------------------
+ 
+        String identityName = "BWilson";    
+        Identity identityName1 = context.getObject(Identity.class, identityName);
+ 
+        
+        ProvisioningPlan plan = new ProvisioningPlan();    
+        ArrayList accountRequestList = new ArrayList();
+ 
+        plan.setIdentity(identityName1);
+ 
+        
+
+        AccountRequest adAccountRequest = new AccountRequest();
+ 
+        
+        Application AppName1 = context.getObject(Application.class, "ActiveDirectory");
+ 
+        
+        adAccountRequest.setApplication(AppName1.getName());
+        adAccountRequest.setOperation(AccountRequest.Operation.Lock);
+ 
+    //    String finalName ="CN="+BWilson+",CN=Users,DC=Test,DC=local";
+
+        adAccountRequest.setNativeIdentity("CN=BWilson,CN=Users,DC=Test,DC=local");
+
+        accountRequestList.add(adAccountRequest);
+
+        plan.setAccountRequests(accountRequestList);
+
+        System.out.println("Plan ---->" + plan.toXml());
+ 
+        log.debug("plan---->" + plan.toXml());
+ 
+        Provisioner p = new Provisioner(context);
+ 
+        p.compile(plan);
+        p.execute();
+ 
+        return plan;
+ 
+    }
+
+]]></Source>
+                            
+        
+        </Script>
+                    
+        
+        <Transition to="Stop"/>
+                  
+    
+    </Step>
+          
+    
+    <Step icon="Start" name="Start" posX="139" posY="25">
+                    
+        
+        <Transition to="Generic Step"/>
+                  
+    
+    </Step>
+          
+    
+    <Step icon="Stop" name="Stop" posX="813" posY="33"/>
+        
+
+</Workflow>

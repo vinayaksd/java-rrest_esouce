@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Rule PUBLIC "sailpoint.dtd" "sailpoint.dtd">
+<Rule language="beanshell" name="Rule_Example-Applications_name">
+          
+    
+    <Source><![CDATA[
+    
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import sailpoint.api.PersistenceManager;
+import sailpoint.api.SailPointContext;
+import sailpoint.object.Application;
+import sailpoint.object.Capability;
+import sailpoint.object.Identity;
+import sailpoint.object.Permission;
+import sailpoint.object.SailPointObject;
+import sailpoint.tools.GeneralException;
+
+
+	 /* 11111111111List<Application> applications=context.getObjects(Application.class);
+  	System.out.println("**************************************************");
+  	System.out.println("object: "+config.get("key1"));
+  	String idnetityname=config.get("key1");
+  	Identity identity = context.getObject(Identity.class,idnetityname);
+  	System.out.println("identityname:  "+identity.getManager().getName());
+  
+  ArrayList  list= new ArrayList();
+		if(applications!=null && applications.size()>0){
+      for(Application app:applications ){
+			System.out.println("your Application name: "+ app.getName()+"file type: "+app.getType());
+			System.out.println("AccountCorrelationConfig:  "+app.getAccountCorrelationConfig());
+			System.out.println("AggregationTypes : "+app.getAggregationTypes()+"\n");
+			list.add("your Application name: "+ app.getName()+"___ filetype: "+app.getType()+"\n"
+			+"AccountCorrelationConfig:  "+app.getAccountCorrelationConfig()+"\nAggregationTypes : "+app.getAggregationTypes()
+			+"\ngetConnector:  "+app.getConnector());
+    	
+    }
+    }
+    
+	return list;
+	*/
+	/* List<Application> applications=context.getObjects(Application.class);
+	 if(applications!=null && applications.size()>0){
+		 for(Application app:applications ) {
+			 if("HR System- Employees".equals(app.getName())) {
+				System.out.println(app.getId()); 
+				app.removeAttribute(app.getId());
+					return "removing"+app.getId() ;
+				 
+			 }
+			 }
+			 }
+			 else 
+			 return "app is null";
+		*/
+		
+	Terminator t = new Terminator(context);        
+	Filter myFilter = Filter.eq("links.application.name", "HR System- Employees");    
+	QueryOptions qo = new QueryOptions();       
+	qo.addFilter(myFilter);        
+	List identitys = context.getObjects(Identity.class, qo);       
+	ArrayList list = new ArrayList();       
+	String s = "";    
+	   if(identitys!=null&&identitys.size()>0){
+	        for(int i =0;i<identitys.size();i++){
+	        SailPointObject delId = (SailPointObject) identitys.get(i);     
+	    t.deleteObject(delId);
+	        list.add(delId+", ");
+	        }
+	        
+	return list;
+	    }   
+	else 
+	  return"no deleted value ";	 
+		 
+  
+    ]]></Source>
+        
+
+</Rule>
