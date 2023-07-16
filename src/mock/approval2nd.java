@@ -89,7 +89,7 @@ public class approval2nd {
 					   }
 		  
 				  
-				  IdentityApprovalGenerator   iag = new IdentityApprovalGenerator(wfcontext);
+				  IdentityApprovalGenerator      iag = new IdentityApprovalGenerator(wfcontext);
 				newApprovals = iag.buildApprovalsFromMap(approvalMap, "Request");
 				
 				for (Approval newApproval : newApprovals) {
